@@ -1,0 +1,1 @@
+# go-beget-generated-client
