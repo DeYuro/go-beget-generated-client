@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  version: 0.0.1
+servers:
+- url: https://api.beget.com
+security:
+- bearerAuth: []
+tags:
+- name: AuthService
+- name: KeyService
+paths:
+  /v1/auth:
+    post:
+      description: Запрос авторизации пользователя.
+      operationId: AuthService_Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auth_AuthRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth_AuthResponse'
+          description: OK
+      tags:
+      - AuthService
+  /v1/auth/key:
+    get:
+      operationId: KeyService_GetKey
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Key_GetKeyResponse'
+          description: OK
+      tags:
+      - KeyService
+  /v1/auth/logout:
+    post:
+      description: 'Выход пользователя. Обязательно наличие токена в заголовках в
+        виде Authorization: BEARER {JWT}'
+      operationId: AuthService_Logout
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth_LogoutResponse'
+          description: OK
+      tags:
+      - AuthService
+  /v1/auth/refresh:
+    post:
+      description: 'Запрос обновления токена. Обязательно наличие токена в заголовках
+        в виде Authorization: BEARER {JWT}'
+      operationId: AuthService_RefreshToken
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth_RefreshTokenResponse'
+          description: OK
+      tags:
+      - AuthService
+  /v1/auth/switch:
+    post:
+      description: 'Переключение пользователя. Обязательно наличие токена в заголовках
+        в виде Authorization: BEARER {JWT}'
+      operationId: AuthService_SwitchUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auth_SwitchUserRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth_SwitchUserResponse'
+          description: OK
+      tags:
+      - AuthService
+components:
+  schemas:
+    Auth_AuthRequest:
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+        code:
+          type: string
+        saveMe:
+          type: boolean
+    Auth_AuthResponse:
+      example:
+        error: error
+        token: token
+      properties:
+        token:
+          description: oneof{response}
+          type: string
+        error:
+          description: oneof{response}
+          format: enum
+          type: string
+    Auth_LogoutResponse:
+      properties: {}
+    Auth_RefreshTokenResponse:
+      example:
+        error: error
+        token: token
+      properties:
+        token:
+          description: oneof{response}
+          type: string
+        error:
+          description: oneof{response}
+          format: enum
+          type: string
+    Auth_SwitchUserRequest:
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+        code:
+          type: string
+    Auth_SwitchUserResponse:
+      example:
+        error: error
+        token: token
+      properties:
+        token:
+          description: oneof{response}
+          type: string
+        error:
+          description: oneof{response}
+          format: enum
+          type: string
+    Key_GetKeyResponse:
+      example:
+        key: key
+      properties:
+        key:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
