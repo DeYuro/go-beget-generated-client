@@ -6,7 +6,19 @@
 https://github.com/LTD-Beget/auth
 https://github.com/LTD-Beget/vps
 
-Клиент выполняет следующие действия
+## HOW TO USE
+>
+> scripts/generate-clients.sh
+>
+> go mod download
+> 
+> go build -o go-test-client -v ./cmd
+> 
+> ./go-test-client -login=BEGET_CP_LOGIN -password=BEGET_CP_PASSWORD
+> 
+> use -delay flag at you own risk
+
+Тестовый клиент выполняет следующие действия
 
 1 Запрос на авторизацию пользователя (POST api.beget.com/v1/auth)
 1.1 Запрос с неверными данными
