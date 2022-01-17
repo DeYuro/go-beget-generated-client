@@ -88,7 +88,7 @@ func (p *provider) addSsh(ctx context.Context) (*vpsClient.SshKeyAddResponse,err
 	return &resp, err
 }
 
-// POST api.beget.com/v1/vps/{id}/sshKey/{ssh_key_id}
+// DELETE api.beget.com/v1/vps/sshKey/{id}
 func (p *provider) removeSsh(ctx context.Context, sshId int32) (*vpsClient.SshKeyRemoveResponse,error)  {
 	req := p.vpsClient.SshKeyServiceApi.SshKeyServiceRemove(ctx, strconv.Itoa(int(sshId)))
 	req = req.Force("1")
@@ -101,7 +101,7 @@ func (p *provider) removeSsh(ctx context.Context, sshId int32) (*vpsClient.SshKe
 
 	return &resp, err
 }
-// DELETE api.beget.com/v1/vps/{id}/sshKey/{ssh_key_id}
+// POST api.beget.com/v1/vps/{id}/sshKey/{ssh_key_id}
 func (p *provider) attachSsh(ctx context.Context, uuid string, sshId int32) (*vpsClient.ManageAttachSshKeyResponse, error) {
 	req := p.vpsClient.ManageServiceApi.ManageServiceAttachSshKey(ctx, uuid, strconv.Itoa(int(sshId)))
 
@@ -114,7 +114,7 @@ func (p *provider) attachSsh(ctx context.Context, uuid string, sshId int32) (*vp
 	return &resp, err
 }
 
-// DELETE api.beget.com/v1/vps/sshKey/{id}
+// DELETE api.beget.com/v1/vps/{id}/sshKey/{ssh_key_id}
 func (p *provider) detachSsh(ctx context.Context, uuid string, sshId int32) (*vpsClient.ManageDetachSshKeyResponse, error) {
 	req := p.vpsClient.ManageServiceApi.ManageServiceDetachSshKey(ctx, uuid, strconv.Itoa(int(sshId)))
 
