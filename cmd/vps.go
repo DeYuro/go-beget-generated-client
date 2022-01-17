@@ -226,7 +226,7 @@ func vpsTest(ctx context.Context, p provider, delay time.Duration) error {
 		return errors.New(fmt.Sprintf("Expect vps status == %s, got == %s", removingStatus, rRemoveVps.Vps.GetStatus()))
 	}
 
-	pp.Println(fmt.Sprintf("GetVpsList request with removed uuid %s: Expect err with text %s", rCreateVps.Vps.GetId(), error404))
+	pp.Println(fmt.Sprintf("GetVpsInfo request with removed uuid %s: Expect err with text %s", rCreateVps.Vps.GetId(), error404))
 	rGetInfo, err = p.getInfo(ctx, rCreateVps.Vps.GetId())
 	pp.Println("Response")
 	pp.Println(rGetInfo)
@@ -351,7 +351,7 @@ func (p *provider) updateInfo(ctx context.Context, uuid, hostname string) (*vpsC
 	return &resp, err
 }
 
-// PUT api.beget.com/v1/vps/{id}/password
+// POST api.beget.com/v1/vps/server/{id}/reboot
 func (p *provider) rebootVps(ctx context.Context, uuid string) (*vpsClient.ManageRebootVpsResponse, error) {
 	req := p.vpsClient.ManageServiceApi.ManageServiceRebootVps(ctx, uuid)
 
